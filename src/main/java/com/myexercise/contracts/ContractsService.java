@@ -18,15 +18,15 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
-@Path("/contracts")
+@Component
+@Path("contracts")
 @Produces("application/json")
 public class ContractsService {
 	
 	@Autowired
 	private ContractRepository repo;
-	
 	
 	private final String DATE_FORMAT = "(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-((19|20)\\d\\d)";
 	
