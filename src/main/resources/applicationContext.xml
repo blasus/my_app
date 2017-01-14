@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation=
 	"http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd
@@ -9,14 +10,17 @@
 	http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
 	http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
-	 	
+	
+	<context:annotation-config/>
+		
   	<mongo:mongo host="127.0.0.1" port="27017"/>
   	<mongo:db-factory dbname="contracts"/>
-  	
+  	<mongo:repositories base-package="com.acme.*.repositories" />
+  	 	
   	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
   		<constructor-arg ref="mongoDbFactory" name="mongoDbFactory"/>
   	</bean>
   	
-  	<mongo:repositories base-package="com.acme.*.repositories" />
+  	
   	
 </beans>

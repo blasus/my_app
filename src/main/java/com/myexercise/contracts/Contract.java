@@ -8,6 +8,8 @@ package main.java.com.myexercise.contracts;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -19,7 +21,7 @@ public class Contract {
 	
 		
 	@Id
-	private String id;
+	private ObjectId id;
 	
 	@Indexed
 	@Field("identificativo_lavoratore")
