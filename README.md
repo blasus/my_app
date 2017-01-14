@@ -8,22 +8,6 @@ Sarà determinante il formato di storage dei dati e scelta del database (visto c
 
 Naturalmente conviene partire con qualcosa di molto semplice, in modo che riesci a dare uno sguardo a tutto lo stack e al tooling necessario, poi, se c'è il tempo e l'interesse, si può pensare di creare qualcosa di più strutturato e magari anche pubblicarlo.
 
-
-Software richiesto:<br>
-1. Eclipse;<br>
-2. MongoDb installato e configurato;<br>
-3. Plugin M2Eclipse in Eclipse per installare Maven;<br>
-4. Apache Tomcat 9.0 (ultima versione) installato e configurato;<br>
-
-Avvio:
-1. Aprire da command prompt in amministratore l'eseguibile "mongod" specificando la directory di storing del database con il comando "--dbpath" (senza usare "");
-2. Aprire Eclipse assicurandosi di avere M2Eclipse installato (Help --> Install new sofware... e seguire comunque la procedura indicata sul sito di M2Eclipse;
-3. Importare il progetto Maven nel proprio workspace di Eclipse;
-4. Attendere la sincronizzazione di tutte le dipendenze;
-5. Configurare su server Tomcat la risorsa "my_app";
-6. Avviare il web server;
-7. Provare su browser o usando il plugin "HTTP4E" per Eclipse a inviare richieste http sul canale "localhost" con porta 8080.
-=======
 Software richiesto:<br>
 1. Eclipse;<br>
 2. MongoDb installato e configurato;<br>
@@ -40,4 +24,4 @@ Avvio:<br>
 7. Provare su browser o usando il plugin "HTTP4E" per Eclipse a inviare richieste http sul canale "localhost" con porta 8080.
 
 URL di prova: https://localhost:8080/my_app/contracts o https://localhost:8080/my_app/contracts/PF2398
->>>>>>> origin/master
+
