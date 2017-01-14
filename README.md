@@ -38,4 +38,6 @@ Avvio:<br>
 5. Configurare su server Tomcat la risorsa "my_app";<br>
 6. Avviare il web server;<br>
 7. Provare su browser o usando il plugin "HTTP4E" per Eclipse a inviare richieste http sul canale "localhost" con porta 8080.
+
+URL di prova: https://localhost:8080/my_app/contracts o https://localhost:8080/my_app/contracts/PF2398
 >>>>>>> origin/master
