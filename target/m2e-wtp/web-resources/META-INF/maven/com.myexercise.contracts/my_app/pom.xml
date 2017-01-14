@@ -22,7 +22,8 @@
   </build>
     
   <dependencies>
-    <!-- Java servlet packages -->
+    
+    <!-- Java servlet libraries -->
     <dependency>
     	<groupId>javax.servlet</groupId>
     	<artifactId>javax.servlet-api</artifactId>
@@ -38,14 +39,21 @@
       	<scope>test</scope>
     </dependency>
 	
-	<!-- Bynary manipulation Java package -->
+	<!-- Bytecode manipulation Java libraries -->
 	<dependency>
 		<groupId>asm</groupId>
 		<artifactId>asm</artifactId>
 		<version>3.3.1</version>
 	</dependency>
 	
-	<!-- Json manipulation Java package -->
+	<!-- Bytecode generation libraries -->
+	<dependency>
+    	<groupId>cglib</groupId>
+    	<artifactId>cglib</artifactId>
+    	<version>3.2.4</version>
+	</dependency>
+	
+	<!-- Json manipulation Java libraries -->
 	<dependency>
 		<groupId>org.json</groupId>
 		<artifactId>json</artifactId>
@@ -100,7 +108,7 @@
     	<version>3.4.1</version>
 	</dependency>
     
-    <!-- Spring mongodb integration -->
+    <!-- Spring mongodb integration libraries -->
     <dependency>
         <groupId>org.springframework.data</groupId>
         <artifactId>spring-data-mongodb</artifactId>

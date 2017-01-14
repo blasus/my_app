@@ -8,12 +8,12 @@ Sarà determinante il formato di storage dei dati e scelta del database (visto c
 
 Naturalmente conviene partire con qualcosa di molto semplice, in modo che riesci a dare uno sguardo a tutto lo stack e al tooling necessario, poi, se c'è il tempo e l'interesse, si può pensare di creare qualcosa di più strutturato e magari anche pubblicarlo.
 
-<<<<<<< HEAD
-Software richiesto:
-1. Eclipse;
-2. MongoDb installato e configurato;
-3. Plugin M2Eclipse in Eclipse per installare Maven;
-4. Apache Tomcat 9.0 (ultima versione) installato e configurato;
+
+Software richiesto:<br>
+1. Eclipse;<br>
+2. MongoDb installato e configurato;<br>
+3. Plugin M2Eclipse in Eclipse per installare Maven;<br>
+4. Apache Tomcat 9.0 (ultima versione) installato e configurato;<br>
 
 Avvio:
 1. Aprire da command prompt in amministratore l'eseguibile "mongod" specificando la directory di storing del database con il comando "--dbpath" (senza usare "");
