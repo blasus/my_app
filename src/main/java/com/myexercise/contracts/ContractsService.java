@@ -18,6 +18,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+/*import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;*/
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,7 +30,7 @@ public class ContractsService {
 	
 	@Autowired
 	private ContractRepository repo;
-	
+	//private final ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);	
 	private final String DATE_FORMAT = "(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-((19|20)\\d\\d)";
 	
 	@GET
@@ -45,6 +48,7 @@ public class ContractsService {
 		@DefaultValue("01-01-2014")@QueryParam("di: "+DATE_FORMAT) String startDate,
 		@DefaultValue("")@QueryParam("df: "+DATE_FORMAT) String endDate) throws JSONException{
 		
+		//MongoOperations mongo = (MongoOperations) ctx.getBean("mongoTemplate");
 		List<Contract> list = repo.findAll();
 		String result = "";
 		Calendar start = new GregorianCalendar(

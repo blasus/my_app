@@ -1,14 +1,11 @@
 package main.java.com.myexercise.contracts;
 
 /**
- * 
  * @author Blasi Francesco
- *
  */
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;

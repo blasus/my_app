@@ -4,13 +4,6 @@ package main.java.com.myexercise.contracts;
  * @author Blasi Francesco
  */
 
-
-
-/**
- * @author Blasi Francesco
- */
-
-
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
