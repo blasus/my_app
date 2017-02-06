@@ -1,5 +1,8 @@
 package com.myexercise.contracts;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+
 /**
  * @author Blasi Francesco
  */
@@ -55,7 +58,7 @@ public class Contract {
 	private String qual;
 	
 	@Field("tipo_orario")
-	private char schedType;
+	private String schedType;
 	
 	@Field("data_inizio")
 	private Date startDate;
@@ -81,17 +84,7 @@ public class Contract {
 		this.provAgency = provAgency;
 		this.contractType = contractType;
 		this.qual = qual;
-		this.schedType = schedType.charAt(0);
-		/*this.startDate = new GregorianCalendar(
-				Integer.parseInt(startDate.substring(6)),
-				Integer.parseInt(startDate.substring(3, 5)),
-				Integer.parseInt(startDate.substring(0, 2)));
-		if(!endDate.equals("")){
-			this.endDate = new GregorianCalendar(
-					Integer.parseInt(endDate.substring(6)),
-					Integer.parseInt(endDate.substring(3, 5)),
-					Integer.parseInt(endDate.substring(0, 2)));
-		}*/
+		this.schedType = schedType;
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
@@ -184,11 +177,11 @@ public class Contract {
 		this.qual = qual;
 	}
 
-	public char getSched_type() {
+	public String getSched_type() {
 		return schedType;
 	}
 	
-	public void setSched_type(char sched_type) {
+	public void setSched_type(String sched_type) {
 		this.schedType = sched_type;
 	}
 
@@ -210,11 +203,15 @@ public class Contract {
 	
 	@Override
 	public String toString() {
-		return "{ \"identificativo_lavoratore\" = \"" + idWorker + "\", \"genere\" = \"" + gen + "\", \"anno_nascita\" = \"" + born 
-				+ "\", \"provincia_domicilio\" = \"" + provWorker + "\", \"codice_titolo_studio\" = \"" + tsCode + "\", \"cittadinanza\" = \"" + nation 
-				+ "\", \"identificativo_azienda\" = \"" + idAgency + "\", \"settore_ateco\" = \"" + sector + "\", \"provincia_sede_operativa\" = \"" + provAgency
-				+ "\", \"tipologia_contrattuale\" = \"" + contractType + "\", \"qualifica\" = \"" + qual + "\", \"tipo_orario\" = \"" + schedType 
-				+ "\", \"data_inizio\" = \"" + startDate.toString() + "\", \"data_fine\" = \"" + endDate.toString() + "\"}\n";
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		String json= "{ \"identificativo_lavoratore\" : \"" + idWorker + "\", \"genere\" = \"" + gen + "\", \"anno_nascita\" = " + born 
+				+ ", \"provincia_domicilio\" = " + provWorker + ", \"codice_titolo_studio\" = " + tsCode + ", \"cittadinanza\" = \"" + nation 
+				+ "\", \"identificativo_azienda\" = \"" + idAgency + "\", \"settore_ateco\" = " + sector + ", \"provincia_sede_operativa\" = " + provAgency
+				+ ", \"tipologia_contrattuale\" = \"" + contractType + "\", \"qualifica\" = \"" + qual + "\", \"tipo_orario\" = \"" + schedType 
+				+ "\", \"data_inizio\" = \"" + formatter.format(startDate);
+		if(endDate != null) json += "\", \"data_fine\" = \"" + formatter.format(endDate);
+		
+		return json += "\"}\n";
 	}
 	
 	@Override
@@ -267,7 +264,10 @@ public class Contract {
 				return false;
 		} else if (!qual.equals(other.qual))
 			return false;
-		if (schedType != other.schedType)
+		if (schedType == null) {
+			if (other.schedType != null)
+				return false;
+		} else if (!schedType.equals(other.schedType))
 			return false;
 		if (Double.doubleToLongBits(sector) != Double.doubleToLongBits(other.sector))
 			return false;

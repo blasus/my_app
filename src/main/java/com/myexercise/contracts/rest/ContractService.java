@@ -35,15 +35,24 @@ public class ContractService {
 		this.repo = repo;
 	}
 	
+	
+	/* restituisce tutti le entries presenti nel db (molto pesante) */
 	@GET
 	public Response findAll() throws JSONException{
 		
 		List<Contract> list = repo.findAll();
 		String result = "";
-		for(Contract obj : list) result += obj.toString();
+		for(Contract obj : list){
+			result += obj.toString();
+			System.out.println(obj);
+		}
 		
 		return Response.status(200).entity(result).build();
 	}
+	
+	/* restituisce gli elementi di una pagina di 50 entries presenti nel db (più leggero)*/
+	/** da fare**/
+	
 	
 	@Path("/date/ended")
 	@GET

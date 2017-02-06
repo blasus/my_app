@@ -5,15 +5,21 @@ package com.myexercise.contracts;
  */
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContractRepository extends MongoRepository<Contract, String> {
+public interface ContractRepository extends MongoRepository<Contract, String>, PagingAndSortingRepository<Contract, String> {
 	
 	@Query(value="{}", fields = "{'_id' : 0}")
 	public List<Contract> findAll();
+	
+	@Query()
+	public Page<Contract> findAll(Pageable pageable);
 	
 	@Query(value = "{'identificativo_lavoratore' : ?0}", fields = "{'_id' : 0}")
 	public List<Contract> findByIdWorker(String idWorker);
