@@ -1,11 +1,10 @@
-package main.java.com.myexercise.contracts;
+package com.myexercise.contracts;
 
 /**
  * @author Blasi Francesco
  */
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -27,7 +26,7 @@ public class Contract {
 	@Field("genere")
 	private String gen;
 	
-	@Field("anno di nascita")
+	@Field("anno_nascita")
 	private int born;
 	
 	@Field("provincia_domicilio")
@@ -59,10 +58,10 @@ public class Contract {
 	private char schedType;
 	
 	@Field("data_inizio")
-	private Calendar startDate;
+	private Date startDate;
 	
 	@Field("data_fine")
-	private Calendar endDate;
+	private Date endDate;
 	
 	
 	public Contract(){}
@@ -70,7 +69,7 @@ public class Contract {
 	@PersistenceConstructor
 	public Contract(String idWorker, String gen, int born, int provWorker, int tsCode, String nation,
 			String idAgency, double sector, int provAgency, String contractType, String qual,
-			String schedType, String startDate, String endDate){
+			String schedType, Date startDate, Date endDate){
 		this.idWorker = idWorker;
 		this.gen = gen;
 		this.born = born;
@@ -83,7 +82,7 @@ public class Contract {
 		this.contractType = contractType;
 		this.qual = qual;
 		this.schedType = schedType.charAt(0);
-		this.startDate = new GregorianCalendar(
+		/*this.startDate = new GregorianCalendar(
 				Integer.parseInt(startDate.substring(6)),
 				Integer.parseInt(startDate.substring(3, 5)),
 				Integer.parseInt(startDate.substring(0, 2)));
@@ -92,7 +91,9 @@ public class Contract {
 					Integer.parseInt(endDate.substring(6)),
 					Integer.parseInt(endDate.substring(3, 5)),
 					Integer.parseInt(endDate.substring(0, 2)));
-		}
+		}*/
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 	
 	public String getWorker() {
@@ -191,19 +192,19 @@ public class Contract {
 		this.schedType = sched_type;
 	}
 
-	public Calendar getStart() {
+	public Date getStart() {
 		return startDate;
 	}
 	
-	public void setStart(Calendar start) {
+	public void setStart(Date start) {
 		this.startDate = start;
 	}
 
-	public Calendar getEnd() {
+	public Date getEnd() {
 		return endDate;
 	}
 	
-	public void setEnd(Calendar end) {
+	public void setEnd(Date end) {
 		this.endDate = end;
 	}
 	

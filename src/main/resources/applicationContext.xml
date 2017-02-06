@@ -12,13 +12,15 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<context:annotation-config/>
-		
+	<context:component-scan base-package="com.myexercise.contracts"/>	
+  	
   	<mongo:mongo host="127.0.0.1" port="27017"/>
   	<mongo:db-factory dbname="contracts"/>
-  	<mongo:repositories base-package="com.acme.*.repositories" />
-  	 	
+  	<mongo:repositories base-package="com.myexercise.contracts" />
+  	
   	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
   		<constructor-arg ref="mongoDbFactory" name="mongoDbFactory"/>
+  		
   	</bean>
   	
   	
