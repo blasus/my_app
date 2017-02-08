@@ -1,13 +1,12 @@
 package com.myexercise.contracts.rest;
 
-
 /**
  * @author Blasi Francesco
  */
 
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -18,6 +17,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import com.myexercise.contracts.Contract;
 import com.myexercise.contracts.ContractRepository;
@@ -28,7 +28,8 @@ import com.myexercise.contracts.ContractRepository;
 public class ContractService {
 	
 	private final ContractRepository repo;
-	private final String DATE_FORMAT = "(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-((19|20)\\d\\d)";
+	
+	private final String DATE_FORMAT = "dd/MM/yyyy";
 	
 	@Autowired
 	ContractService(ContractRepository repo){
@@ -36,7 +37,7 @@ public class ContractService {
 	}
 	
 	
-	/* restituisce tutti le entries presenti nel db (molto pesante) */
+	/** Query: db.collection.find({_id : 0}) **/
 	@GET
 	public Response findAll() throws JSONException{
 		
@@ -44,114 +45,166 @@ public class ContractService {
 		String result = "";
 		for(Contract obj : list){
 			result += obj.toString();
+			/* test my query */
 			System.out.println(obj);
 		}
 		
 		return Response.status(200).entity(result).build();
 	}
 	
-	/* restituisce gli elementi di una pagina di 50 entries presenti nel db (più leggero)*/
-	/** da fare**/
 	
-	
-	@Path("/date/ended")
+	/** Query: db.collection.find({_id : 0}).limit(pageSize) **/
+	@Path("/page/")
 	@GET
-	public Response findEnded(
-		@DefaultValue("01-01-2014")@QueryParam("di: "+DATE_FORMAT) String startDate,
-		@DefaultValue("")@QueryParam("df: "+DATE_FORMAT) String endDate) throws JSONException{
+	public Response findAll(
+			@DefaultValue("0")@QueryParam("p") int nPage,
+			@DefaultValue("50")@QueryParam("l") int length) throws JSONException{
 		
-		//MongoOperations mongo = (MongoOperations) ctx.getBean("mongoTemplate");
-		List<Contract> list = repo.findAll();
+		List<Contract> page = repo.findAll(new PageRequest(nPage,length)).getContent();
 		String result = "";
-		Calendar start = new GregorianCalendar(
-				Integer.parseInt(startDate.substring(6)),
-				Integer.parseInt(startDate.substring(3, 5)),
-				Integer.parseInt(startDate.substring(0, 2)));
-		if(!endDate.equals("")){
-			Calendar end = new GregorianCalendar(
-					Integer.parseInt(endDate.substring(6)),
-					Integer.parseInt(endDate.substring(3, 5)),
-					Integer.parseInt(endDate.substring(0, 2)));
-			for(Contract obj : list){
-				if(obj.getStart().compareTo(start) >= 0 && obj.getEnd().compareTo(end) <= 0)
-					result += obj.toString();
-			}
+		/* test my query */
+		System.out.println("\n risultati restituiti: "+page.size()+"\n");
+		
+		for(Contract obj : page){
+			result += obj.toString();
+			/* test my query */
+			System.out.println(obj);
 		}
-		else{
-			for(Contract obj : list){
-				if(obj.getStart().compareTo(start) >= 0)
-					result += obj.toString();
+		
+		return Response.status(200).entity(result).build();
+	}
+	
+	
+	/** Query: db.collection.find({$and: [{data_inizio: {$gt: start}},{data_fine: {$lt: end}]},{_id : 0}) **/
+	@Path("/date/period/")
+	@GET
+	public Response findByPeriod(
+		@DefaultValue("01/01/2014")@QueryParam("di") String startDate,
+		@DefaultValue("")@QueryParam("df") String endDate) throws JSONException{
+		
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+		Date start = null;
+		try {
+			start = formatter.parse(startDate);
+		} catch (ParseException e) {
+			System.out.println("\n Parsing startDate: "+e.getMessage()+"\n");
+			return Response.status(500).entity("Http error: 500 - Bad request for startDate").build();
+		}
+		List<Contract> list;
+		String result = "";
+		if(!endDate.equals("")){
+			Date end = null;
+			try {
+				end = formatter.parse(endDate);
+			} catch (ParseException e) {
+				System.out.println("\n Parsing endDate: "+e.getMessage()+"\n");
+				return Response.status(500).entity("Http error: 500 - Bad request for endDate").build();
 			}
+			
+			if(end.before(start)) return Response.status(400).entity("Bad date interval requested!").build();
+			
+			System.out.println("1. intervallo valido");
+			list = repo.findByStartDateAfterAndEndDateBefore(start, end);
+						
+		}else{
+			System.out.println("2. data fine non specificata");
+			list = repo.findByStartDateAfter(start);
+		}
+		for(Contract obj : list){
+			result += obj.toString();
+			/* test my query */
+			System.out.println(obj);
 		}
 				
 		return Response.status(200).entity(result).build();
 	}
 	
-	@Path("/date")
+	
+	/** Query: db.collection.find({$and: [{data_inizio: {$gt: data1}},{data_inizio: {$lt: data2}}]}) **/
+	@Path("/date/")
 	@GET
-	public Response findFromDatetoDate(
-		@DefaultValue("01-01-2014")@QueryParam("di1: "+DATE_FORMAT) String sd1,
-		@DefaultValue("")@QueryParam("di2: "+DATE_FORMAT) String sd2){
+	public Response findBetweenStartDates(
+		@DefaultValue("01-01-2014")@QueryParam("from") String sd1,
+		@DefaultValue("")@QueryParam("to") String sd2){
+		
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+		Date start1 = null;
+		try {
+			start1 = formatter.parse(sd1);
+		} catch (ParseException e) {
+			System.out.println("\n Parsing startDate1: "+e.getMessage()+"\n");
+			return Response.status(500).entity("Http error: 500 - Bad request for startDate").build();
+		}
 		List<Contract> list;
 		String result = "";
-		if(!sd1.equals(sd2)){
-			Calendar start1 = new GregorianCalendar(
-				Integer.parseInt(sd1.substring(6)),
-				Integer.parseInt(sd1.substring(3, 5)),
-				Integer.parseInt(sd1.substring(0, 2)));
-			if(!sd2.equals("")){
-				Calendar start2 = new GregorianCalendar(
-					Integer.parseInt(sd2.substring(6)),
-					Integer.parseInt(sd2.substring(3, 5)),
-					Integer.parseInt(sd2.substring(0, 2)));
-				int c = start1.compareTo(start2);
-				if(c < 0){
-					list = repo.findAll();
-					for(Contract obj : list){
-						if(obj.getStart().compareTo(start1) >= 0 && obj.getStart().compareTo(start2) <= 0)
-							result += obj.toString();
-					}
-				}else return Response.status(400).entity("intervallo di date non valido").build();
-			}else{
-				list = repo.findAll();
-				for(Contract obj : list){
-					if(obj.getStart().compareTo(start1) >= 0) result += obj.toString();
-				}
+		if(!sd2.equals("")){
+			Date start2 = null;
+			try {
+				start2 = formatter.parse(sd2);
+			} catch (ParseException e) {
+				System.out.println("\n Parsing startDate2: "+e.getMessage()+"\n");
+				return Response.status(500).entity("Http error: 500 - Bad request for startDate").build();
 			}
+			
+			if(start2.before(start1)) return Response.status(400).entity("Bad date interval requested!").build();
+			
+			System.out.println("1. intervallo valido");
+			list = repo.findByStartDateBetween(start1, start2);
+						
+		}else{
+			System.out.println("2. seconda data inizio non specificata");
+			list = repo.findByStartDateAfter(start1);
 		}
+		for(Contract obj : list){
+			result += obj.toString();
+			/* test my query */
+			System.out.println(obj);
+		}
+		
 		return Response.status(200).entity(result).build();
 	}
 	
-	@Path("/{idWorker: [PF][0-9]+}")
+	/** Query: db.collection.find({identificativo_lavoratore: idWorker}) **/
+	@Path("/{idWorker: [P][F][0-9]+}")
 	@GET
-	public Response findIdWorker(@PathParam("idWorker") String idWorker) throws JSONException{
+	public Response findWorker(@PathParam("idWorker") String idWorker) throws JSONException{
 		
 		List<Contract> list = repo.findByIdWorker(idWorker);
 		String result = "";
-		for(Contract obj : list) result += obj.toString();
+		
+		if(!list.isEmpty()) for(Contract obj : list) result += obj.toString();
+		else result = idWorker + " not found!";
 	
 		return Response.status(200).entity(result).build();
 	}
 	
-	@Path("/{idAgency: [PG][0-9]+}")
+	/** Query: db.collection.find({identificativo_azienda: idAgency}) **/
+	@Path("/{idAgency: [P][G][0-9]+}")
 	@GET
 	public Response findAgency(@PathParam("idAgency") String idAgency) throws JSONException{
 		
 		List<Contract> list = repo.findByIdAgency(idAgency);
 		String result = "";
-		for(Contract obj : list) result += obj.toString();
+		
+		if(!list.isEmpty()) for(Contract obj : list) result += obj.toString();
+		else result = idAgency + " not found!";
 	
 		return Response.status(200).entity(result).build();
 	}
 	
-	@Path("/{tipo_contratto: [A-Z].\\d\\d.\\d\\d}")
+	/** Query: db.collection.find({tipologia_contrattuale: contractType}) **/
+	@Path("/{contractType: [A-Z].\\d\\d.\\d\\d}")
 	@GET
-	public Response findType(@PathParam("tipo_contratto") String type) throws JSONException{
+	public Response findType(@PathParam("contractType") String type) throws JSONException{
 	
 		List<Contract> list = repo.findByContractType(type);
 		String result = "";
-		for(Contract obj : list) result += obj.toString();
+		
+		if(!list.isEmpty()) for(Contract obj : list) result += obj.toString();
+		else result = type + "not found!";
 		
 		return Response.status(200).entity(result).build();
 	}
+	
+	
 }
