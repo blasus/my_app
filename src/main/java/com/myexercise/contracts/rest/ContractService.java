@@ -18,18 +18,19 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Component;
 import com.myexercise.contracts.Contract;
 import com.myexercise.contracts.ContractRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Component
+
 @Path("contracts")
 @Produces("application/json")
 public class ContractService {
 	
 	private final ContractRepository repo;
-	
-	private final String DATE_FORMAT = "dd/MM/yyyy";
+	static final String DATE_FORMAT = "dd/MM/yyyy";
+	static final Logger logger = LoggerFactory.getLogger(ContractService.class);
 	
 	@Autowired
 	ContractService(ContractRepository repo){
@@ -46,7 +47,7 @@ public class ContractService {
 		for(Contract obj : list){
 			result += obj.toString();
 			/* test my query */
-			System.out.println(obj);
+			logger.info(obj.toString());
 		}
 		
 		return Response.status(200).entity(result).build();
@@ -63,12 +64,12 @@ public class ContractService {
 		List<Contract> page = repo.findAll(new PageRequest(nPage,length)).getContent();
 		String result = "";
 		/* test my query */
-		System.out.println("\n risultati restituiti: "+page.size()+"\n");
+		logger.debug("risultati restituiti: {}. \n",page.size());
 		
 		for(Contract obj : page){
 			result += obj.toString();
 			/* test my query */
-			System.out.println(obj);
+			logger.info(obj.toString());
 		}
 		
 		return Response.status(200).entity(result).build();
@@ -87,7 +88,7 @@ public class ContractService {
 		try {
 			start = formatter.parse(startDate);
 		} catch (ParseException e) {
-			System.out.println("\n Parsing startDate: "+e.getMessage()+"\n");
+			logger.error("Parsing startDate: {}. ",e.getMessage());
 			return Response.status(500).entity("Http error: 500 - Bad request for startDate").build();
 		}
 		List<Contract> list;
@@ -97,23 +98,23 @@ public class ContractService {
 			try {
 				end = formatter.parse(endDate);
 			} catch (ParseException e) {
-				System.out.println("\n Parsing endDate: "+e.getMessage()+"\n");
+				logger.error("Parsing endDate: {}. ",e.getMessage());
 				return Response.status(500).entity("Http error: 500 - Bad request for endDate").build();
 			}
 			
 			if(end.before(start)) return Response.status(400).entity("Bad date interval requested!").build();
 			
-			System.out.println("1. intervallo valido");
+			logger.debug("1. intervallo valido.");
 			list = repo.findByStartDateAfterAndEndDateBefore(start, end);
 						
 		}else{
-			System.out.println("2. data fine non specificata");
+			logger.debug("2. data fine non specificata.");
 			list = repo.findByStartDateAfter(start);
 		}
 		for(Contract obj : list){
 			result += obj.toString();
 			/* test my query */
-			System.out.println(obj);
+			logger.info(obj.toString());
 		}
 				
 		return Response.status(200).entity(result).build();
@@ -132,7 +133,7 @@ public class ContractService {
 		try {
 			start1 = formatter.parse(sd1);
 		} catch (ParseException e) {
-			System.out.println("\n Parsing startDate1: "+e.getMessage()+"\n");
+			logger.error("Parsing startDate1: {}. ",e.getMessage());
 			return Response.status(500).entity("Http error: 500 - Bad request for startDate").build();
 		}
 		List<Contract> list;
@@ -142,23 +143,23 @@ public class ContractService {
 			try {
 				start2 = formatter.parse(sd2);
 			} catch (ParseException e) {
-				System.out.println("\n Parsing startDate2: "+e.getMessage()+"\n");
+				logger.error("Parsing startDate2: {}. ",e.getMessage());
 				return Response.status(500).entity("Http error: 500 - Bad request for startDate").build();
 			}
 			
 			if(start2.before(start1)) return Response.status(400).entity("Bad date interval requested!").build();
 			
-			System.out.println("1. intervallo valido");
+			logger.debug("1. intervallo valido.");
 			list = repo.findByStartDateBetween(start1, start2);
 						
 		}else{
-			System.out.println("2. seconda data inizio non specificata");
+			logger.debug("2. seconda data inizio non specificata");
 			list = repo.findByStartDateAfter(start1);
 		}
 		for(Contract obj : list){
 			result += obj.toString();
 			/* test my query */
-			System.out.println(obj);
+			logger.info(obj.toString());
 		}
 		
 		return Response.status(200).entity(result).build();

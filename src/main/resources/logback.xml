@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration debug="true" scan="true" packagingData="true">
+
+  <!-- property scope="context" name="DIR" value="C:\Users\xblas\workspace\my_app"  -->
+  
+  <timestamp key="name" datePattern="yyyy_MM_dd'T'HHmmss"
+  		 timeReference="contextBirth"/>
+
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+  	<!-- use the previously created timestamp to create a uniquely
+         named log file -->
+  	<file>${catalina.home}/logs/log-${name}.txt</file>
+  	<append>true</append>
+  	<encoder>
+  	  <pattern>%.-30(%d{HH:mm:ss.SSS} %level %logger{10} [%file:%line]) - %msg%n</pattern>
+  	</encoder>
+  </appender>
+  
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%-30(%d{HH:mm:ss.SSS} %-5level %logger{20}) - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <logger name="com.myexercise.contracts.rest" additivity="false">
+  	<appender-ref ref="STDOUT" />
+  </logger>
+
+  <root level="debug">
+    <appender-ref ref="FILE" />
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>

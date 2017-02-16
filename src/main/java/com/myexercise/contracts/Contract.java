@@ -1,12 +1,10 @@
 package com.myexercise.contracts;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-
 /**
  * @author Blasi Francesco
  */
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -204,7 +202,7 @@ public class Contract {
 	@Override
 	public String toString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		String json= "{ \"identificativo_lavoratore\" : \"" + idWorker + "\", \"genere\" = \"" + gen + "\", \"anno_nascita\" = " + born 
+		String json= "{\"identificativo_lavoratore\" : \"" + idWorker + "\", \"genere\" = \"" + gen + "\", \"anno_nascita\" = " + born 
 				+ ", \"provincia_domicilio\" = " + provWorker + ", \"codice_titolo_studio\" = " + tsCode + ", \"cittadinanza\" = \"" + nation 
 				+ "\", \"identificativo_azienda\" = \"" + idAgency + "\", \"settore_ateco\" = " + sector + ", \"provincia_sede_operativa\" = " + provAgency
 				+ ", \"tipologia_contrattuale\" = \"" + contractType + "\", \"qualifica\" = \"" + qual + "\", \"tipo_orario\" = \"" + schedType 
