@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Visualizzatore contratti 2014</title>
+		<style>
+			html, body {
+				height: 100%;
+			}
+						
+			#contract {
+				border-collapse: collapse;
+				width: 100%;
+			}
+			
+			#contract th, #contract td {
+				text-align: center;
+				border: 1px solid #ddd;
+				padding: 4px;
+			}
+			
+			#contract tr:nth-child(even) {background-color: #f2f2f2}
+			
+			#contract thead {
+				padding-top: 8px;
+				padding-bottom: 8px;
+				background-color: #4caf50;
+				color: white;
+			}
+			
+			#divHead{
+				height: 50px;
+			}
+			
+			#divMenu {
+				height: 30px;	
+			}
+			
+			#divTable {
+				height: 60%;
+				overflow-y: auto;
+			}
+			
+			#divText {
+				height: 15px;
+			}
+			
+			h2 {
+				text-align: center;
+				letter-spacing: 3px;
+				word-spacing: 5px;
+			}
+						
+		</style>
+		<script src="js/jquery_3.1.1.js" type="text/javascript"></script>
+		<script src="js/jquery-ui-1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="js/load.js" type="text/javascript"></script>
+		
+	</head>
+	<body onload="load()">
+		<div id="divHead">
+			<h2>Contratti Regione Lazio 2014</h2>
+		</div>
+		<div id="divMenu"> 
+			<p id="index1">show
+				<select name="pages" id="pages">
+					<option value="ten">10</option>
+					<option value="fifty" selected>50</option>
+					<option value="hundred">100</option>
+					<option value="fHundred">500</option>
+				</select>
+				entries
+			</p>	
+		</div>
+		<div id="divTable">
+			<table id="contract">
+			</table>
+		</div>
+		<div id="divText">
+			<p id="index2" align="right">page n°
+				<input id="entries" type="text" value="1">
+				<input type="button" value="invia" onclick="reload()">
+			</p>
+			<script type="text/javascript">
+				function reload(){
+					history.go(0);
+				}
+			</script>
+		</div>
+	</body>
+</html>

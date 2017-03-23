@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Visualizzatore contratti Regione Lazio</title>
+		<style>
+			html, body {
+				height: 100%;
+			}
+						
+			#divHead{
+				height: 50px;
+				background-color: #4caf50;
+			}
+						
+			#divTable{
+				width: 100%;
+			}
+			
+			h2 {
+				text-align: center;
+				letter-spacing: 3px;
+				word-spacing: 5px;
+			}
+						
+			td {
+				text-align: center;
+			}
+			
+			#contract {
+			    border-spacing: 0;
+			}
+									
+		</style>
+		<link rel="stylesheet" type="text/css" href="js/DataTables/datatables.min.css"/>
+		<script type="text/javascript" src="js/jquery_3.1.1.js"></script>
+		<script type="text/javascript" src="js/DataTables/datatables.min.js"></script>
+		<script type="text/javascript" src="js/init.js"></script>
+	</head>
+	<body>
+		<div id="divHead">
+			<h2>Attivazione Contratti Regione Lazio 2014</h2>
+		</div><br>
+		<div id="divSearch" style="width: 40%;">
+			<table style="width: 35%; margin: 0 auto 2em auto; border-spacing : 0; margin-right: auto; margin-left: 0;">
+				<thead>
+					<tr>
+						<th colspan="2" align="center">Ricerca avanzata:</th>
+					</tr>
+					<tr>
+						<th>Campo</th>
+						<th>Testo di ricerca</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr id="anno_nascita">
+						<td>Anno di nascita</td>
+						<td align="center"><input class="column_filter" id="col3_filter" type="text" maxlength="4" size="8" pattern="\d*"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="divTable">
+			<table id="contract" class="display compact nowrap">
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>Id lavoratore</th>
+						<th>Genere</th>
+						<th>Anno nascita</th>
+						<th>Prov. domicilio</th>
+						<th>Cod. titolo studio</th>
+						<th>Cittadinanza</th>
+						<th>Id azienda</th>
+						<th>Settore ateco</th>
+						<th>Prov. sede</th>
+						<th>Tipo contratto</th>
+						<th>Qualifica</th>
+						<th>Tipo orario</th>
+						<th>Data inizio</th>
+						<th>Data fine</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>id</th>
+						<th>Id lavoratore</th>
+						<th>Genere</th>
+						<th>Anno nascita</th>
+						<th>Prov. domicilio</th>
+						<th>Cod. titolo studio</th>
+						<th>Cittadinanza</th>
+						<th>Id azienda</th>
+						<th>Settore ateco</th>
+						<th>Prov. sede</th>
+						<th>Tipo contratto</th>
+						<th>Qualifica</th>
+						<th>Tipo orario</th>
+						<th>Data inizio</th>
+						<th>Data fine</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</body>
+</html>

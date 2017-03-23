@@ -8,6 +8,11 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 import com.mongodb.MongoClient;
 
+/*
+ * Class for mongoTemplate configuration. 
+ * This uses spring annotations for the bean mapping generating the db connection.
+ * It simply instantiate a new mongo connection to default port and db with name contracts.
+ */
 @Configuration
 public class SpringMongoConfig {
 
