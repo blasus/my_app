@@ -14,7 +14,12 @@ In this project will be considered data representing job contracts activation fr
 The original dataset can be found here: http://dati.lazio.it/catalog/en/dataset/comunicazioni-obbligatorie-attivazioni .
 This app is designed to expose a large amount of data, so will be used for example the whole dataset referring to 2014 contracts activation (in total 4 quarters, corresponding to about 1.6M entries).
 
-It will be most important the storage structure of data. For this example it may be convenient to use a NoSql DB, for example MongoDB or anything else is a good choice.
+It will be most important the storage structure of data. For this example it may be convenient to use a NoSql DB, for example MongoDB or anything else noSql DBMS is a good choice.
+The backend engine is directed by Spring data MongoDB framework for java, where Spring uses its core repositories to allows a fast and efficient mapping from the resources stored in db
+into Spring Beans using MongoDB document syle data store. It is indeed a high-level abstraction template for storing and querying documents.
+
+Another important aspect to consider when building an application is the logging of events, errors and in general the status of our app, in particular during we want to test it using debug functions.
+A powerful java framework used for this purpose is LogBack. In particular this project uses the core package that provides essential packages for logging functions in java based programs.    
 
 Two really graceful jquery frameworks for the client visualization are DataTables (see https://datatables.net/manual/index ) and D3.js (see https://d3js.org/ ).
 Pivot/OLAP based tables are also good alternatives for the exposition.
@@ -30,6 +35,8 @@ Tools:
 + M2Eclipse - http://www.eclipse.org/m2e/ ;
 + MongoDB - https://www.mongodb.com/ . A MongoDB Windows service could be configured by following this guide: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#configure-a-windows-service-for-mongodb-community-edition ;
 + Apache Tomcat 9 - http://tomcat.apache.org/download-90.cgi . Follow this guide to configure it in Eclipse: https://www.eclipse.org/webtools/jst/components/ws/1.0/tutorials/InstallTomcat/InstallTomcat.html ;
++ Spring Data MongoDB v. 1.10.1.RELEASE - http://docs.spring.io/spring-data/data-mongo/docs/1.10.1.RELEASE/reference/html/ ;
++ logBack java logging - https://logback.qos.ch/documentation.html ;
 + Jquery, already implemented;
 + DataTables - https://datatables.net/manual/index , already implemented;
 + D3 - https://d3js.org/ , will be included in next implementations;
