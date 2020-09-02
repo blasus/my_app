@@ -64,7 +64,7 @@
 	<dependency>
     	<groupId>cglib</groupId>
     	<artifactId>cglib</artifactId>
-    	<version>3.2.4</version>
+    	<version>3.3.0</version>
 	</dependency>
 	
 	<!-- gson google format json string -->
